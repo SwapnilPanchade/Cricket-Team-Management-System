@@ -23,20 +23,20 @@ public class PlayerDao {
         return "Player added successfully into the account ";
     }
 
-    @Transactional
     public String addMultiplePlayers(List<Player> players) {
         int cnt = 0;
         try{
             Session session = sessionFactory.openSession();
-
+            session.beginTransaction();
             for(Player player : players){
                 session.save(player);
                 cnt++;
             }
+            session.getTransaction().commit();
         } catch (RuntimeException e) {
             throw new RuntimeException(e);
         }
 
-        return cnt+" Players added successfully";
+        return cnt +" Players added successfully";
     }
 }

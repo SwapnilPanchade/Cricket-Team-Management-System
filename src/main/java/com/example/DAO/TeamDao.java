@@ -23,8 +23,10 @@ public class TeamDao {
     public String addTeam(Team team) {
         try{
             Session session = sessionFactory.openSession();
+            session.beginTransaction();
             session.save(team);
             session.getTransaction().commit();
+            session.close();
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -36,11 +38,11 @@ public class TeamDao {
         return "Team added successfully";
     }
 
-    @Transactional
     public String addMultiples(List<Team> teams) {
         int cnt=0;
         try{
             Session session = sessionFactory.openSession();
+            session.beginTransaction();
 
             for(Team team: teams){
                 session.save(team);
